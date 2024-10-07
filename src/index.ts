@@ -1,9 +1,14 @@
 import express from "express";
+import { PORT } from "./utils/envs";
+import { setAppMiddlewares } from "./middlewares/setAppMiddlewares";
+import router from "./routes";
 
-const app = express();
-app.use(express.json());
 
-const PORT = 8080;
+export const app = express();
+
+setAppMiddlewares(app);
+
+app.use('/', router);
 
 app.listen(PORT, ()=>{
     console.log(`Server listening on port ${PORT} ⚡`);
