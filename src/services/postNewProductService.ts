@@ -1,6 +1,13 @@
 import { database } from "../database";
 
-export const postNewProductService = async (object: object) => {
+interface NewProduct {
+    title: string;
+    category: string;
+    price: number;
+    image: string;
+}
+
+export const postNewProductService = async (object: NewProduct) => {
     const { title, category, price, image } = object;
     try{
         const newProduct = new database({
@@ -12,8 +19,7 @@ export const postNewProductService = async (object: object) => {
         console.log('this is new product',newProduct);
         await newProduct.save();
         return newProduct;
-    }catch(error){
+    }catch(error: any){
         throw new Error(error.message);
     }
 };
-

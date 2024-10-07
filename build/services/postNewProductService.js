@@ -9,24 +9,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fillDbController = void 0;
-const fillDbService_1 = require("../services/fillDbService");
-const fillDbController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { type } = req.query;
-    if (!type)
-        return res.status(400).json({ message: 'Missing parameter' });
+exports.postNewProductService = void 0;
+const database_1 = require("../database");
+const postNewProductService = (object) => __awaiter(void 0, void 0, void 0, function* () {
+    const { title, category, price, image } = object;
     try {
-        const fill = yield (0, fillDbService_1.fillDbService)(type);
-        return res.status(200).json(fill);
+        const newProduct = new database_1.database({
+            title,
+            category,
+            price,
+            image,
+        });
+        console.log('this is new product', newProduct);
+        yield newProduct.save();
+        return newProduct;
     }
     catch (error) {
-        // throw new Error(error.message);
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
-        else {
-            return res.status(500).json({ message: 'Internal Server Error' });
-        }
+        throw new Error(error.message);
     }
 });
-exports.fillDbController = fillDbController;
+exports.postNewProductService = postNewProductService;
