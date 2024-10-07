@@ -1,11 +1,6 @@
 import { database } from "../database";
+import { NewProduct } from "../utils/interfaces";
 
-interface NewProduct {
-    title: string;
-    category: string;
-    price: number;
-    image: string;
-}
 
 export const postNewProductService = async (object: NewProduct) => {
     const { title, category, price, image } = object;
@@ -16,7 +11,7 @@ export const postNewProductService = async (object: NewProduct) => {
             price,
             image,
         });
-        console.log('this is new product',newProduct);
+        // console.log('this is new product',newProduct);
         await newProduct.save();
         return newProduct;
     }catch(error: any){
