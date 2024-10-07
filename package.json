@@ -4,13 +4,15 @@
   "description": "��#\u0000 \u0000D\u0000a\u0000z\u0000l\u0000a\u0000b\u0000s\u0000-\u0000s\u0000e\u0000r\u0000v\u0000e\u0000r\u0000\r\u0000 \u0000",
   "main": "index.js",
   "scripts": {
+    "dev": "ts-node-dev src/index.ts",
     "tsc": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node build/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/express": "^5.0.0",
     "typescript": "^5.6.2"
   },
   "dependencies": {
