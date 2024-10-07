@@ -7,10 +7,13 @@ export const getProductsService = async (type: string | undefined) => {
   let products;
   try {
     if (!type) {
-      // if not argument is passed, we get all products from the database
+      // if none argument is passed, we get all products from the database
+
       products = await database.find();
+      
     } else {
-        // if argument is passed, we get all products from the database and fill the database with the new ones
+ 
+      // if argument is passed, we get all products from the database and fill the database with the new ones
       const fetch = await axios.get(
         `https://api.mercadolibre.com/sites/MLA/search?q=${type}#json`
       );
