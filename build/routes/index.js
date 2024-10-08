@@ -6,7 +6,9 @@ const postNewProductController_1 = require("../controllers/postNewProductControl
 const putProductController_1 = require("../controllers/putProductController");
 const getProductByIdController_1 = require("../controllers/getProductByIdController");
 const deleteProductController_1 = require("../controllers/deleteProductController");
+const swaggerTags_1 = require("../utils/swaggerTags");
 const router = (0, express_1.Router)();
+(0, swaggerTags_1.registerTag)('Store', 'Todas las rutas relacionadas al store');
 router.get('/products', getProductsController_1.getProductsController);
 router.get('/products/:id', getProductByIdController_1.getProductByIdController);
 router.post('/products', postNewProductController_1.postNewProductController);
