@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev src/index.ts",
-    "build": "tsc && mkdir -p public && cp -R build/* public/",
+    "build": "tsc",
     "production": "npm run build && node build/index.js",
     "start": "node build/index.js"
   },
