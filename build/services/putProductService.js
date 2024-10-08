@@ -9,18 +9,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postNewProductController = void 0;
-const postNewProductService_1 = require("../services/postNewProductService");
-const postNewProductController = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { title, category, price, image } = _req.body;
-    if (!title || !category || !price || !image)
-        res.status(400).json({ message: 'Missing parameter' });
+exports.putProductService = void 0;
+const database_1 = require("../database");
+const putProductService = (id, object) => __awaiter(void 0, void 0, void 0, function* () {
+    const { title, category, price, image } = object;
     try {
-        const newProduct = yield (0, postNewProductService_1.postNewProductService)({ title, category, price, image });
-        res.status(200).json(newProduct);
+        const changedProduct = yield database_1.database.findOneAndUpdate({ _id: id }, {
+            title,
+            category,
+            price,
+            image,
+        }, {
+            new: true,
+        });
+        yield (changedProduct === null || changedProduct === void 0 ? void 0 : changedProduct.save());
+        return changedProduct;
     }
     catch (error) {
         throw new Error(error.message);
     }
 });
-exports.postNewProductController = postNewProductController;
+exports.putProductService = putProductService;

@@ -20,7 +20,6 @@ const postNewProductService = (object) => __awaiter(void 0, void 0, void 0, func
             price,
             image,
         });
-        console.log('this is new product', newProduct);
         yield newProduct.save();
         return newProduct;
     }

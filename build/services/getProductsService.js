@@ -15,19 +15,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getProductsService = void 0;
 const database_1 = require("../database");
 const axios_1 = __importDefault(require("axios"));
-const getProductsService = (type) => __awaiter(void 0, void 0, void 0, function* () {
-    //   console.log("type", type);
+const getProductsService = (type, page, limit) => __awaiter(void 0, void 0, void 0, function* () {
     let products;
+    let totalProducts;
     try {
         if (!type) {
-            // if not argument is passed, we get all products from the database
-            products = yield database_1.database.find();
+            // no payload:
+            totalProducts = yield database_1.database.countDocuments();
+            products = yield database_1.database
+                .find()
+                .skip((page - 1) * limit)
+                .limit(limit);
         }
         else {
-            // if argument is passed, we get all products from the database and fill the database with the new ones
             const fetch = yield axios_1.default.get(`https://api.mercadolibre.com/sites/MLA/search?q=${type}#json`);
             const fillDataBase = fetch.data.results.map((e) => __awaiter(void 0, void 0, void 0, function* () {
-                yield database_1.database.findOneAndUpdate({ title: e.title }, {
+                // check and update
+                yield database_1.database.findOneAndUpdate(
+                //this "filters" the database to not get more than one document with the same title. Like we'd say in my neighborhood "a fines practicos". Just for demo.
+                { title: e.title }, 
+                // {_id: e.id},
+                {
                     title: e.title,
                     category: type,
                     price: e.price,
@@ -37,11 +45,20 @@ const getProductsService = (type) => __awaiter(void 0, void 0, void 0, function*
                 { upsert: true, new: true });
             }));
             yield Promise.all(fillDataBase);
-            // this way we can get all products from the database and not just the ones which 
-            // match the type
-            products = yield database_1.database.find();
+            totalProducts = yield database_1.database.countDocuments();
+            products = yield database_1.database
+                .find()
+                .skip((page - 1) * limit)
+                .limit(limit);
         }
-        return products;
+        return {
+            products,
+            totalProducts,
+            totalPages: Math.ceil(totalProducts / limit),
+            currentPage: page,
+            hasPrev: page > 1,
+            hasNext: page < Math.ceil(totalProducts / limit),
+        };
     }
     catch (error) {
         throw new Error(error.message);

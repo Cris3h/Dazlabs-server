@@ -1,4 +1,5 @@
 "use strict";
+//For future use
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -9,18 +10,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postNewProductController = void 0;
-const postNewProductService_1 = require("../services/postNewProductService");
-const postNewProductController = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { title, category, price, image } = _req.body;
-    if (!title || !category || !price || !image)
-        res.status(400).json({ message: 'Missing parameter' });
-    try {
-        const newProduct = yield (0, postNewProductService_1.postNewProductService)({ title, category, price, image });
-        res.status(200).json(newProduct);
-    }
-    catch (error) {
-        throw new Error(error.message);
-    }
+exports.pagination = void 0;
+//T variable type of document: could be any type but just Document type.
+const pagination = (schema, page, limit) => __awaiter(void 0, void 0, void 0, function* () {
+    const skip = (page - 1) * limit;
+    const results = yield schema.find().skip(skip).limit(limit);
+    const total = yield schema.countDocuments();
+    const pages = Math.ceil(total / limit);
+    const hasPrev = page > 1;
+    const hasNext = page < pages;
+    const pagination = {
+        data: results,
+        totalItems: total,
+        currentPage: page,
+        totalPages: pages,
+        hasPrev,
+        hasNext,
+    };
+    return pagination;
 });
-exports.postNewProductController = postNewProductController;
+exports.pagination = pagination;
