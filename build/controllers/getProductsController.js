@@ -13,9 +13,18 @@ exports.getProductsController = void 0;
 const getProductsService_1 = require("../services/getProductsService");
 const getProductsController = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { type } = _req.query;
+    const page = Number(_req.query.page) || 1;
+    const limit = Number(_req.query.limit) || 10;
     try {
-        const allProducts = yield (0, getProductsService_1.getProductsService)(type || undefined);
-        res.status(200).json(allProducts);
+        const { products, totalProducts, totalPages, currentPage, hasPrev, hasNext } = yield (0, getProductsService_1.getProductsService)(type || undefined, page, limit);
+        res.status(200).json({
+            products,
+            totalProducts,
+            totalPages,
+            currentPage,
+            hasPrev,
+            hasNext,
+        });
     }
     catch (error) {
         throw new Error(error.message);

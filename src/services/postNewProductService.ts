@@ -11,7 +11,6 @@ export const postNewProductService = async (object: NewProduct) => {
             price,
             image,
         });
-        // console.log('this is new product',newProduct);
         await newProduct.save();
         return newProduct;
     }catch(error: any){

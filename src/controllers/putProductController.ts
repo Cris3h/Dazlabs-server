@@ -8,7 +8,7 @@ export const putProductController = async (req: express.Request, res: express.Re
 
     if(!id) res.status(400).json({message: 'Missing ID parameter'});
 
-    // if(!title || !category || !price || !image) res.status(400).json({message: 'Missing body parameter'});
+    // if(!title && !category && !price && !image) res.status(400).json({message: 'Missing body parameter'});
 
     try {
         const changedProduct = await putProductService(id, object); 

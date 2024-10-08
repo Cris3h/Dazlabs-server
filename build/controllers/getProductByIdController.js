@@ -9,18 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postNewProductController = void 0;
-const postNewProductService_1 = require("../services/postNewProductService");
-const postNewProductController = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { title, category, price, image } = _req.body;
-    if (!title || !category || !price || !image)
-        res.status(400).json({ message: 'Missing parameter' });
+exports.getProductByIdController = void 0;
+const getProductsByIdService_1 = require("../services/getProductsByIdService");
+const getProductByIdController = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = _req.params;
     try {
-        const newProduct = yield (0, postNewProductService_1.postNewProductService)({ title, category, price, image });
-        res.status(200).json(newProduct);
+        const productId = yield (0, getProductsByIdService_1.getProductsByIdService)(id);
+        res.status(200).json(productId);
     }
     catch (error) {
         throw new Error(error.message);
     }
 });
-exports.postNewProductController = postNewProductController;
+exports.getProductByIdController = getProductByIdController;
