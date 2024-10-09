@@ -3,6 +3,10 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import { getRegisteredTags } from './swaggerTags';
 import * as swaggerProducts from './routeSwagger';
 
+import { DEPLOY_SERVER_URL } from './envs';
+
+console.log(DEPLOY_SERVER_URL)
+
 const options = {
   definition: {
     openapi: '3.0.0',
@@ -13,7 +17,8 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:8080/', //deployed url
+        // url: 'http://localhost:<port>/', //local url
+        url: DEPLOY_SERVER_URL, //deployed url
         description: 'Main Server',
       },
     ],
