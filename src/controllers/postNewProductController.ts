@@ -8,6 +8,6 @@ export const postNewProductController = async (_req: express.Request, res: expre
     const newProduct = await postNewProductService({ title, category, price, image });
     res.status(200).json(newProduct);
     } catch (error: any) {
-        throw new Error(error.message);
+        res.status(400).send(error.message);
     }
 };

@@ -3,4 +3,8 @@ export interface NewProduct {
     category?: string;
     price?: number;
     image?: string;
-}
+};
+
+export interface CustomError extends Error {
+    statusCode?: number;
+};
