@@ -11,6 +11,7 @@ export const getProductByIdController = async (
     const productId = await getProductsByIdService(id);
     res.status(200).json(productId);
   } catch (error: any) {
-    throw new Error(error.message);
-  }
+    res.status(400).send(error.message);
+   }
+
 };

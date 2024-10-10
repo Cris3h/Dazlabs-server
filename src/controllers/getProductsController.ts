@@ -20,6 +20,6 @@ export const getProductsController = async (_req: Request, res: Response) => {
       hasNext,
     });
   } catch (error: any) {
-    throw new Error(error.message);
+    res.status(400).send(error.message);
   }
 };
